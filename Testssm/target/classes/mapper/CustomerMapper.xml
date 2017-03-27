@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hand.ssm.mapper.CustomerMapper">
+
+
+        <resultMap id="mySet"  type="com.hand.ssm.dto.Customer" >
+        <id column="customer_id" property="customerId" jdbcType="DECIMAL"/>
+        <result column="store_id" property="storeId" jdbcType="DECIMAL"/>
+        <result column="first_name" property="firstName" jdbcType="VARCHAR"/>
+        <result column="last_name" property="lastName" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="address_id" property="addressId" jdbcType="DECIMAL"/>
+        <result column="active" property="active" jdbcType="DECIMAL"/>        
+        <result column="create_date" property="createDate" jdbcType="VARCHAR"/>
+        <result column="last_update" property="lastDate" jdbcType="VARCHAR"/> 
+         <result column="address_id" property="addressId" jdbcType="DECIMAL"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        
+        </resultMap>
+        
+        <!--查寻地址 -->
+        <select id="selectaddress"  resultMap="mySet">
+            select address from address 
+         </select>
+        
+        
+        
+        <!-- 登陆-->
+         <select id="selectByName" parameterType="String" resultMap="mySet">
+            select first_name from customer where first_name=#{firstName}
+         </select>
+         
+         <!-- 查询 -->
+         <select id="select" parameterType="com.hand.ssm.dto.Customer" resultMap="mySet">
+            select customer_id,store_id,first_name,last_name,email from customer limit 0,15
+         </select>
+         
+         
+         <!-- 分页 -->
+         <select id="selectpage" parameterType="com.hand.ssm.dto.Customer" resultMap="mySet">
+          select customer_id,store_id,first_name,last_name,email,address from customer,address limit #{num},15
+         </select>
+         
+        
+         <!-- 插入 -->
+         <insert id="insertOneItem" parameterType="com.hand.ssm.dto.Customer" > 
+             insert into customer(first_name,last_name,store_id,address_id,email,create_date) values(#{firstName},#{lastName},#{storeId},#{addressId},#{email},#{createDate})
+         </insert>
+         
+         <!-- 更改 -->
+         <select id="selectById" parameterType="String" resultMap="mySet">
+            select customer_id,store_id,first_name,last_name,email,address from customer,address where customer.address_id=address.address_id and customer_id=#{customerId}
+         </select>
+
+         <select id="selectadId" parameterType="String" resultMap="mySet">
+            select address_id from customer where  customer_id=#{customerId}
+         </select>
+
+         <update id="updatead" parameterType="com.hand.ssm.dto.Address" >
+           update address set address=#{address} where address_id=#{addressId}
+        </update>
+         
+        <update id="update" parameterType="com.hand.ssm.dto.Customer" >
+           update customer set first_name=#{firstName},last_name=#{lastName},email=#{email} where customer_id=#{customerId}
+        </update>
+        
+        <!--删除  -->
+        <delete id="delete" parameterType="String" >
+            delete from customer where customer_id = #{customerId}
+         </delete>
+        
+        
+</mapper>
