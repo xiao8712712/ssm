@@ -1,0 +1,1 @@
+从登陆界面开始输入MARY就可以进入显示界面，不用输入密码，配置文件放在resource中conf文件中 mapper.xml 放在mapper映射文件中
